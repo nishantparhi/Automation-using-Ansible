@@ -39,7 +39,7 @@
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }} | grep Active
+  shell: systemctl status {{ service }}
   register: output
   failed_when: "'FAILED' in output.stderr"
 
@@ -60,7 +60,7 @@
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }} | grep Active
+  shell: systemctl status {{ service }}
   register: output
   failed_when: "'FAILED' in output.stderr"
 
@@ -85,7 +85,7 @@
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }} | grep Active
+  shell: systemctl status {{ service }}
   register: output
   failed_when: "'FAILED' in output.stderr"
 
@@ -110,7 +110,7 @@
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }} | grep Active
+  shell: systemctl status {{ service }}
   register: output
   failed_when: "'failed_when' in output.stderr"
 
