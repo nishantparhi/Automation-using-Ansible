@@ -1,0 +1,5 @@
+---
+- hosts: nishant-fedora-vm@192.168.237.135
+  remote_user: nishant-fedora-vm
+  roles:
+    - roles

@@ -1,0 +1,8 @@
+---
+- hosts: nishant-fedora-vm@192.168.237.135
+  name: Service Manipulation
+  become: yes
+
+  roles:
+    - roles    
+...
