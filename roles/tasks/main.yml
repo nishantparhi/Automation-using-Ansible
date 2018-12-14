@@ -1,5 +1,5 @@
 ---
-- name: Stopping & diabling {{ service }}
+- name: Stop & diable the {{ service }}
   service:
     name: "{{ service }}"
     state: stopped
