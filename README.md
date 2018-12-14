@@ -13,7 +13,7 @@ Below are the instructions on how to run this script:
 
 3. In your inventory file, mark1.yml file, roles/test/main.yml file, and roles/test/inventory file; change the host to you system (`nishant-fedora-vm@192.168.237.135` in my case)
 
-4. Run this on your main system `ansible-playbook playbook.yml -e "service=ssh" -K`
+4. Run this on your main system `ansible-playbook playbook.yml -e "service=jenkins" -K`
 
 5. Your target system will be rebooted thrice while running the role.
 
