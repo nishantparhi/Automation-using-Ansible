@@ -1,5 +1,5 @@
 ---
-- name: Stopping & diabling service {{ service }}
+- name: Stopping & diabling {{ service }}
   service:
     name: "{{ service }}"
     state: stopped
@@ -10,7 +10,14 @@
   reboot:
     reboot_timeout: 2000
 
-- name: service facts
+- name: Show if the service is enabled at boot
+  shell: systemctl list-unit-files | grep {{ service }}
+  register: output
+
+- debug:
+    var: output.stdout
+
+- name: service facts 
   service_facts:
   
 - name: Displaying {{ service }} state
@@ -22,10 +29,15 @@
   register: output
   failed_when: "'FAILED' in output.stderr"
 
+- name: Displaying status of {{ service }}
+  shell: systemctl status {{ service }} | grep disabled
+  register: output
+  failed_when: "'disabled' in output.stderr"
+
 - debug:
     var: output.stdout
 
-- name: Starting service {{ service }}
+- name: Starting {{ service }}
   service:
     name: "{{ service }}"
     state: started
@@ -39,14 +51,19 @@
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }}
+  shell: systemctl status {{ service }} | grep Active
   register: output
   failed_when: "'FAILED' in output.stderr"
+
+- name: Displaying status of {{ service }}
+  shell: systemctl status {{ service }} | grep disabled
+  register: output
+  failed_when: "'disabled' in output.stderr" 
 
 - debug:
     var: output.stdout
 
-- name: Stopping service {{ service }}
+- name: Stopping {{ service }}
   service:
     name: "{{ service }}"
     state: stopped
@@ -60,10 +77,14 @@
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }}
+  shell: systemctl status {{ service }} 
   register: output
   failed_when: "'FAILED' in output.stderr"
 
+- name: Displaying status of {{ service }}
+  shell: systemctl status {{ service }} | grep disabled
+  register: output
+  failed_when: "'disabled' in output.stderr"
 - debug:
     var: output.stdout
 
@@ -77,6 +98,13 @@
   reboot:
     reboot_timeout: 2000
 
+- name: Show if the service is enabled at boot
+  shell: systemctl list-unit-files | grep {{ service }}
+  register: output
+
+- debug:
+    var: output.stdouts
+
 - name: service facts
   service_facts:
   
@@ -85,9 +113,14 @@
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }}
+  shell: systemctl status {{ service }} | grep Active
   register: output
   failed_when: "'FAILED' in output.stderr"
+
+- name: Displaying status of {{ service }}
+  shell: systemctl status {{ service }} | grep enabled
+  register: output
+  failed_when: "'enabled' in output.stderr"
 
 - debug:
     var: output.stdout
@@ -104,15 +137,27 @@
 - name: Reboot
   reboot:
     reboot_timeout: 2000
+
+- name: Show if the service is enabled at boot
+  shell: systemctl list-unit-files | grep {{ service }}
+  register: output
+
+- debug:
+    var: output.stdout
   
 - name: Displaying {{ service }} state
   debug:
     var: ansible_facts.services['{{ service }}'].state
   
 - name: Displaying status of {{ service }}
-  shell: systemctl status {{ service }}
+  shell: systemctl status {{ service }} | grep Active
   register: output
   failed_when: "'failed_when' in output.stderr"
+
+- name: Displaying status of {{ service }}
+  shell: systemctl status {{ service }} | grep disabled
+  register: output
+  failed_when: "'disabled' in output.stderr" 
 
 - debug:
     var: output.stdout
